@@ -1,72 +1,72 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        HelloEmployee
-      </h1>
-      <h2 class="subtitle">
-        Agile Methodologies Project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
+  
+     
+        
+    <div class="col-lg-6 mx-auto">
+        
+        <h1 style="center">Inicio de Sesión</h1>
+        
+        <br>
+        <form @submit.prevent>
+            <div class="form-group">
+                <input 
+                v-model="account.email"
+                id="nuxtfire-email" 
+                type="email" 
+                placeholder="Correo Electrónico"
+                class="form-control">
+            </div>
+            <div class="form-group">
+                <input 
+                v-model="account.password" 
+                id="nuxtfire-password" 
+                type="password"
+                placeholder="Contraseña" 
+                class="form-control">
+            </div>
+            <div class="form-group">
+                <input 
+                @click="login"
+                type="submit"
+                class="btn btn-primary">
+            </div>
+            <div v-if='isError' class="alert alert-danger">
+                <p class="mb-0">{{errMsg}}</p>
+            </div>
+        </form>    
+    </div>    
+
+
+
+
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
-  }
-}
+    data: () => ({
+        account: {
+            email: "",
+            passworld: ""
+        },
+        isError: false,
+        errMsg: ''
+    }),
+    methods: {
+        login(){
+            this.$store.dispatch('users/login',this.account).catch(error =>{
+                this.isError = true;
+
+                setTimeout(() => {
+                     this.isError = false;
+
+                },5000);
+            });
+            this.$router.push("/admin");
+        }
+    }
+};
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
 </style>
